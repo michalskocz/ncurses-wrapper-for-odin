@@ -4,26 +4,12 @@ import "core:c"
 
 foreign import lib "system:ncurses"
 
-foreign lib {
-    cur_term: TERMINAL
-
-    boolnames:  [^]cstring
-    boolcodes:  [^]cstring
-    boolfnames: [^]cstring
-    numnames:   [^]cstring
-    numcodes:   [^]cstring
-    numfnames:  [^]cstring
-    strnames:   [^]cstring
-    strcodes:   [^]cstring
-    strfnames:  [^]cstring
-}
-
 @(default_calling_convention="c")
 foreign lib {
-    setupterm :: proc(term: cstring, filedes: c.int, errret: ^c.int) -> c.int ---
+    setupterm :: proc(term: cstring, filedes: c.int, errret: [^]c.int) -> c.int ---
     set_curterm :: proc(nterm: TERMINAL) -> TERMINAL ---
     del_curterm :: proc(oterm: TERMINAL) -> c.int ---
-    restartterm :: proc(term: cstring, filedes: c.int, errret: ^c.int) -> c.int ---
+    restartterm :: proc(term: cstring, filedes: c.int, errret: [^]c.int) -> c.int ---
 
     tparm :: proc(str: cstring, #c_vararg args: ..any) -> cstring ---
 
@@ -43,7 +29,7 @@ foreign lib {
 
     /* extensions */
     tiparm_s :: proc(expected: c.int, mask: c.int, str: cstring, #c_vararg args: ..any) -> cstring ---
-    tiscan_s :: proc(expected: ^c.int, mask: ^c.int, str: cstring) -> c.int ---
+    tiscan_s :: proc(expected: [^]c.int, mask: [^]c.int, str: cstring) -> c.int ---
 
     /* deprecated */
     setterm :: proc(term: cstring) -> c.int ---

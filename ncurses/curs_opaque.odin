@@ -21,5 +21,5 @@ foreign lib {
 
     wgetparent :: proc(win: WINDOW) -> WINDOW ---
     wgetdelay :: proc(win: WINDOW) -> c.int ---
-    wgetscrreg :: proc(win: WINDOW, top, bottom: ^c.int) -> c.int ---
+    wgetscrreg :: proc(win: WINDOW, top, bottom: [^]c.int) -> c.int ---
 }

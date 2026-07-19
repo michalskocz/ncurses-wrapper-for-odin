@@ -11,7 +11,7 @@ foreign lib {
 	endwin :: proc() -> c.int ---
 
 
-	newterm :: proc(type: cstring, outf: ^c.FILE, inf: ^c.FILE) -> SCREEN ---
+	newterm :: proc(type: cstring, outf: [^]c.FILE, inf: [^]c.FILE) -> SCREEN ---
 	set_term :: proc(new: SCREEN) -> SCREEN ---
 	delscreen :: proc(sp: SCREEN) ---
 }
