@@ -9,6 +9,9 @@ foreign lib {
 
 	cur_term: TERMINAL
 
+	@(link_name="acs_map")
+    acs_map_base: chtype
+
     boolnames:  [^]cstring
     boolcodes:  [^]cstring
     boolfnames: [^]cstring
@@ -24,3 +27,5 @@ foreign lib {
     BC: cstring
     ospeed: c.short
 }
+
+acs_map: [^]chtype = ([^]chtype)(&acs_map_base)

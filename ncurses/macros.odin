@@ -15,12 +15,7 @@ NCURSES_BITS :: proc "contextless" (mask: $U, shift: c.uint32_t) -> chtype  {
 
 foreign import lib "system:ncurses"
 
-foreign lib {
-	@(link_name="acs_map")
-    acs_map_base: chtype
-}
 
-acs_map: [^]chtype = ([^]chtype)(&acs_map_base)
 
 NCURSES_ACS :: proc "contextless" (c: u8) -> chtype {
     return acs_map[c]
@@ -75,3 +70,57 @@ ACS_BSSS     :: proc "contextless" () -> chtype { return ACS_TTEE() }
 ACS_BSBS     :: proc "contextless" () -> chtype { return ACS_HLINE() }
 ACS_SBSB     :: proc "contextless" () -> chtype { return ACS_VLINE() }
 ACS_SSSS     :: proc "contextless" () -> chtype { return ACS_PLUS() }
+
+A_NORMAL :: proc "contextless" () -> chtype { return chtype(1) - chtype(1) }
+
+
+
+A_ATTRIBUTES :: proc "contextless" () -> chtype { return NCURSES_BITS(~(chtype(1) - chtype(1)), 0) }
+A_CHARTEXT :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 0) - 1 }
+A_STANDOUT :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 8) }
+A_UNDERLINE :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 9) }
+A_REVERSE :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 10) }
+A_BLINK :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 11) }
+A_DIM :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 12) }
+A_BOLD :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 13) }
+A_ALTCHARSET :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 14) }
+A_INVIS :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 15) }
+A_PROTECT :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 16) }
+A_HORIZONTAL :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 17) }
+A_LEFT :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 18) }
+A_LOW :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 19) }
+A_RIGHT :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 20) }
+A_TOP :: proc "contextless" () -> chtype {return NCURSES_BITS(1, 21) }
+A_VERTICAL :: proc "contextless" () -> chtype { return NCURSES_BITS(1, 22) }
+
+
+getmaxyx :: proc(win: WINDOW, y: [^]c.int, x: [^]c.int) {
+	if y != nil && x != nil {
+		y[0] = getmaxy(win)
+		x[0] = getmaxx(win)
+	}
+
+}
+
+getyx :: proc(win: WINDOW, y: [^]c.int, x: [^]c.int)  {
+	if y != nil && x != nil {
+		y[0] = getcury(win)
+		x[0] = getcurx(win)
+	}
+}
+
+
+getbegyx :: proc(win: WINDOW, y: [^]c.int, x: [^]c.int) {
+	if y != nil && x != nil {
+		y[0] = getbegy(win)
+		x[0] = getbegx(win)
+	}
+}
+
+
+getparyx :: proc(win: WINDOW, y: [^]c.int, x: [^]c.int)  {
+	if y != nil && x != nil {
+		y[0] = getpary(win)
+		x[0] = getparx(win)
+	}
+}
