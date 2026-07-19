@@ -7,14 +7,6 @@ import "core:c"
 foreign import lib "system:ncurses"
 
 
-
-COLOR_BLACK :: 0
-COLOR_RED :: 1
-COLOR_GREEN :: 2
-COLOR_YELLOW :: 3
-COLOR_BLUE :: 4
-COLOR_MAGENTA :: 5
-
 @(private="file")
 const_a_color := NCURSES_BITS((u32(1) <<8) - u32(1), 0)
 

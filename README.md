@@ -30,16 +30,12 @@ main :: proc() {
 
 ## Advanced Example
 
-The repository includes a complete TUI File Explorer application (`example.odin`) demonstrating advanced features such as:
-
-* Custom color schemes (Retro Blue style).
-* Terminal resizing responsiveness (`getmaxx` / `getmaxy`).
-* Keypad navigation handling (Arrow keys & Enter).
+The repository includes a complete TUI File Explorer application (`example.odin`) 
 
 To run the explorer example, simply use:
 
 ```bash
-odin run example.odin -file
+odin run .
 ```
 
 ## Build and Run
