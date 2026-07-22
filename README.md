@@ -4,12 +4,6 @@ A comprehensive and modular `ncurses` wrapper for the Odin programming language,
 
 This wrapper imports most of the core functions, structures, and macros offered by the original C library, split into clean, maintainable modules.
 
-## Features
-
-* **Modular Structure:** Functions are organized cleanly across specific files (e.g., `curs_color.odin`, `curs_mouse.odin`, `curs_window.odin`).
-* **Zero Dependencies Beyond ncurses:** Works natively with standard Odin builds.
-* **Colors & Input Handling:** Full support for custom color pairs, windows, and special keypad inputs (like arrow keys).
-
 ## Quick Start (Hello World)
 
 Here is a simple example to get a window up and running:
@@ -37,7 +31,8 @@ To run the explorer example, simply use:
 ```bash
 odin run .
 ```
-
+<img src="img=img/sc.png" alt="print scrin"/>
+    
 ## Build and Run
 
 Building projects using this wrapper follows the standard Odin workflow. No special flags or external build scripts are required, provided you have `ncurses` installed on your system:
