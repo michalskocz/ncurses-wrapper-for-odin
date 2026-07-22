@@ -31,7 +31,7 @@ To run the explorer example, simply use:
 ```bash
 odin run .
 ```
-<img src="img=img/sc.png" alt="print scrin"/>
+![scrin](img/sc.png)
     
 ## Build and Run
 
