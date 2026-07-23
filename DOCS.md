@@ -79,6 +79,8 @@ So we can write our `mvprintw` as
 Manual:
 ```odin
 err = nc.move(out_y, out_x)
+// or
+err = nc.wmove(win, out_y, ouy_x)
 assert(err == nc.OK)
 err = nc.printw(text)
 assert(err == nc.OK)
@@ -97,4 +99,50 @@ err = nc.mvwprintw(win, out_y, out_x, text)
 assert(err == nc.OK)
 ```
 
-To keep our hello world from disappearing, we use the `getch` function to wait for input from the user. After pressing any character, the program will go to `winend`, which frees up memory and restores the terminal to its pre-launch state.
+To keep our hello world from disappearing, we use the `getch` function to wait for input from the user. After pressing any character, the program will go to `winend`, which frees up memory and restores the terminal to its pre-launch state and ofcorse we have `wgetch` - for specyfic window, `mvgetch` - to move after get, `mvwgetch` - to move after get from specific window 
+
+## Two window
+
+An important aspect of this library is windows. They allow us to manage space:
+
+```odin
+package main
+import nc "shared:ncurses"
+
+main :: proc() {
+	nc.initscr()
+	defer nc.endwin()
+
+	max_y, max_x := nc.getmaxyx(nc.stdscr)
+
+	MINI :: 4
+
+	win1 := nc.newwin(max_y - MINI, max_x, 0, 0)
+	win2 := nc.newwin(MINI, max_x, max_y - MINI , 0)
+
+	nc.box(win1, 0, 0)
+	nc.box(win2, 0 ,0)
+
+	text1  := "mini window"
+	nc.mvwprintw(win2, 2 , max_x / 2 - len(text1)/2 ,text1)
+
+	text2 := "big window"
+	nc.mvwprintw(win1, (max_y - MINI)/2, max_x/2 - len(text2)/2, text2 )
+
+
+	nc.refresh()
+	nc.wrefresh(win1)
+	nc.wrefresh(win2)
+
+	nc.getch()
+}
+```
+In this case, it creates two `windows` using the `newwin` function. The first argument tells us how many rows the window has, the second parameter tells us the number of columns, and the third and fourth parameters tell us where the window should be located. 
+
+The `box` function draws a border around our window.
+
+The `refresh` and `wrefresh` functions are responsible for actually pushing the items into the buffer seen by the user.
+
+
+The effect of this combination of windows and borders gives us a nice UI outline:
+![scrin](img/w2.png)
