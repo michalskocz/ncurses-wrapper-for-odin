@@ -12,9 +12,6 @@ import nc "ncurses"
 // ---------------------------------------------------------
 
 // Key codes used by ncurses
-KEY_UP    :: 0o403
-KEY_DOWN  :: 0o402
-KEY_ENTER :: 10
 
 // Color Pair Identifiers
 CP_NORMAL   :: 1
@@ -139,17 +136,17 @@ handle_input :: proc(state: ^Explorer_State) {
     case 'q', 'Q':
         state.running = false
 
-    case KEY_UP:
+    case nc.KEY_UP:
         if state.selected_idx > 0 {
             state.selected_idx -= 1
         }
 
-    case KEY_DOWN:
+    case nc.KEY_DOWN:
         if state.selected_idx < len(state.entries) - 1 {
             state.selected_idx += 1
         }
 
-    case KEY_ENTER, '\r':
+    case nc.KEY_ENTER, '\r':
         if len(state.entries) > 0 {
             selected := state.entries[state.selected_idx]
 
@@ -250,11 +247,11 @@ open_file_viewer :: proc(state: ^Explorer_State, filename: string) {
         switch ch {
         case 'q', 'Q', 27: // 'q' or ESC
             viewing = false
-        case KEY_UP:
+        case nc.KEY_UP:
             if file_offset > 0 {
                 file_offset -= 1
             }
-        case KEY_DOWN:
+        case nc.KEY_DOWN:
             if rendered_lines >= int(max_visible) {
                 file_offset += 1
             }
