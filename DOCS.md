@@ -119,6 +119,8 @@ main :: proc() {
 
 	win1 := nc.newwin(max_y - MINI, max_x, 0, 0)
 	win2 := nc.newwin(MINI, max_x, max_y - MINI , 0)
+	defer nc.delwin(win1)
+	defer nc.delwin(win2)
 
 	nc.box(win1, 0, 0)
 	nc.box(win2, 0 ,0)
@@ -136,6 +138,7 @@ main :: proc() {
 
 	nc.getch()
 }
+
 ```
 In this case, it creates two `windows` using the `newwin` function. The first argument tells us how many rows the window has, the second parameter tells us the number of columns, and the third and fourth parameters tell us where the window should be located. 
 
