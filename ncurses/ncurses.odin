@@ -1368,18 +1368,47 @@ mvwin_wch :: proc(win: WINDOW, y, x: int, wch: [^]cchar_t) -> int {
 	return int(_mvwin_wch(win, c.int(y), c.int(x), wch))
 }
 
+@(private)
 @(default_calling_convention="c")
 foreign lib {
-	initscr :: proc() -> _WINDOW ---
-	endwin :: proc() -> c.int ---
+	@(link_name="initscr")
+	_initscr :: proc() -> _WINDOW ---
+	@(link_name="endwin")
+	_endwin :: proc() -> c.int ---
 
-
-	newterm :: proc(type: cstring, outf: [^]c.FILE, inf: [^]c.FILE) -> SCREEN ---
-	set_term :: proc(new: SCREEN) -> SCREEN ---
-	delscreen :: proc(sp: SCREEN) ---
+	@(link_name="newterm")
+	_newterm :: proc(type: cstring, outf: [^]c.FILE, inf: [^]c.FILE) -> SCREEN ---
+	@(link_name="set_term")
+	_set_term :: proc(new: SCREEN) -> SCREEN ---
+	@(link_name="delscreen")
+	_delscreen :: proc(sp: SCREEN) ---
 }
 
+initscr :: proc() -> WINDOW {
+	win := _initscr()
+	if win == nil {
+		return nil
+	}
+	return WINDOW(&win[0])
+}
 
+endwin :: proc() -> int {
+	return int(_endwin())
+}
+
+newterm :: proc(type: string, outf: [^]c.FILE, inf: [^]c.FILE, allocator: runtime.Allocator = context.temp_allocator ) -> SCREEN {
+	c_str := strings.clone_to_cstring(type, allocator)
+	defer delete(c_str)
+	return _newterm(c_str, outf, inf)
+}
+
+set_term :: proc(new: SCREEN) -> SCREEN {
+	return _set_term(new)
+}
+
+delscreen :: proc(sp: SCREEN) {
+	_delscreen(sp)
+}
 
 @(private)
 @(default_calling_convention="c")
